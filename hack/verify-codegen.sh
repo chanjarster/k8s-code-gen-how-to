@@ -4,10 +4,13 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+OUTPUT_PKG=generated
+MODULE=example.com/foo-controller
+
 SCRIPT_ROOT=$(dirname "${BASH_SOURCE[0]}")/..
 
-DIFFROOT="${SCRIPT_ROOT}/pkg"
-TMP_DIFFROOT="${SCRIPT_ROOT}/_tmp/pkg"
+DIFFROOT="${SCRIPT_ROOT}/${OUTPUT_PKG}"
+TMP_DIFFROOT="${SCRIPT_ROOT}/_tmp/${OUTPUT_PKG}"
 _tmp="${SCRIPT_ROOT}/_tmp"
 
 cleanup() {
@@ -21,6 +24,9 @@ mkdir -p "${TMP_DIFFROOT}"
 cp -a "${DIFFROOT}"/* "${TMP_DIFFROOT}"
 
 "${SCRIPT_ROOT}/hack/update-codegen.sh"
+echo "copying generated ${SCRIPT_ROOT}/${MODULE}/${OUTPUT_PKG} to ${DIFFROOT}"
+cp -r "${SCRIPT_ROOT}/${MODULE}/${OUTPUT_PKG}"/* "${DIFFROOT}"
+
 echo "diffing ${DIFFROOT} against freshly generated codegen"
 ret=0
 diff -Naupr "${DIFFROOT}" "${TMP_DIFFROOT}" || ret=$?
