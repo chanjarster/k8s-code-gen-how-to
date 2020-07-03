@@ -24,7 +24,7 @@ bash "${CODEGEN_PKG}"/generate-groups.sh "all" \
   ${MODULE}/${OUTPUT_PKG} ${MODULE}/${APIS_PKG} \
   ${GROUP_VERSION} \
   --go-header-file "${SCRIPT_ROOT}"/hack/boilerplate.go.txt \
-  --output-base "$(dirname "${BASH_SOURCE[0]}")/.."
+  --output-base "${SCRIPT_ROOT}"
 #  --output-base "$(dirname "${BASH_SOURCE[0]}")/../../.." \
 
 # To use your own boilerplate text append:
